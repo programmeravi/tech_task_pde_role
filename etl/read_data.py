@@ -1,19 +1,3 @@
-# import pandas as pd
-
-# def read_data(file_path):
-#     """Reads a CSV file and returns a Pandas DataFrame.
-
-#     Args:
-#         file_path (str): The path to the CSV file.
-
-#     Returns:
-#         pandas.DataFrame: The data from the CSV file as a DataFrame.
-#     """
-
-#     df = pd.read_csv(file_path, sep="|")
-#     return df
-
-
 import csv
 
 def read_data(file_path):
@@ -26,7 +10,22 @@ def read_data(file_path):
         list: A list of dictionaries, where each dictionary represents a row in the CSV file.
     """
 
+    column_names = [
+        "FirstName",
+        "LastName",
+        "Company",
+        "BirthDate",
+        "Salary",
+        "Address",
+        "Suburb",
+        "State",
+        "Post",
+        "Phone",
+        "Mobile",
+        "Email"
+    ]
+
     with open(file_path, 'r') as f:
-        reader = csv.DictReader(f)
+        reader = csv.DictReader(f, fieldnames=column_names)
         data = [row for row in reader]
     return data
