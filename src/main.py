@@ -1,14 +1,73 @@
 from read_data import read_data
 from transform_data import transform_data
-# from datetime import datetime
+# from transform_data_v2 import transform_data
+from datetime import datetime
 # from dateutil.relativedelta import relativedelta
 
+from transform_data import (
+    create_full_name,
+    format_birth_date
+)
+
 file_path = "data/member-data-smaller-sample.csv"
+# file_path = "data/member-data.csv"
 data = read_data(file_path)
-transformed_data_sample = transform_data(data)
+# transformed_data = transform_data(data)
 
-print(transformed_data_sample)
+# for row in data:
+#     birth_date = row.get("BirthDate")
+#     print(birth_date, type(birth_date))
+#     birth_date = datetime.strptime(birth_date, "%d%m%Y").strftime("%d/%m/%Y")
+#     print(birth_date, type(birth_date))
 
+# for row in data:
+#     birth_date = row.get("BirthDate")
+#     result = format_birth_date(birth_date)
+#     print(result)
+
+birth_date_str = "2061993"
+formatted_date = format_birth_date(birth_date_str)
+print(formatted_date)
+
+# print(data)
+# print("---" * 40)
+# for row in data:
+#     b = row.get('BirthDate')
+#     print(b)
+#     print(type(b))
+#     r = b.strptime(b, "%d%m%Y").strftime("%d/%m/%Y")
+#     print(r)
+# print("---" * 40)
+
+# print(transformed_data_sample)
+# from datetime import datetime
+
+# from transform_data import (
+#     create_full_name,
+#     format_birth_date,
+#     calculate_age,
+#     format_salary,
+#     categorize_salary,
+#     create_address_dict,
+#     transform_data,
+# )
+
+
+# def test_format_birth_date():
+#     """
+#     Tests that the format_birth_date function formats a valid birth date string.
+#     """
+#     birth_date_str = "20001231"
+#     formatted_date = format_birth_date(birth_date_str)
+#     assert formatted_date == "31/12/2000"
+
+
+# birth_date_str = 20001231
+# res = birth_date_str.strptime(birth_date_str, "%d%m%Y").strftime("%d/%m/%Y")
+# print(res)
+
+
+# test_format_birth_date()
 
 # class Address:
 #     """

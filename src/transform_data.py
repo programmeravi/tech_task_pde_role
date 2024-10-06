@@ -2,6 +2,7 @@ from read_data import read_data
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
+
 class Address:
     """
     Represents an address with street, suburb, state, and postcode.
@@ -14,17 +15,69 @@ class Address:
         self.postcode = postcode
 
 
+def create_full_name(row):
+    """
+    Combines the first and last name (stripped) into a FullName key.
+    """
+    return f"{row['FirstName'].strip()} {row['LastName'].strip()}"
+
+
+def format_birth_date(birth_date_str):
+    """
+    Formats a birth date string (if available) to DD/MM/YYYY format.
+    """
+    if birth_date_str:
+        return datetime.strptime(birth_date_str, "%d%m%Y").strftime("%d/%m/%Y")
+    return None
+
+
+def calculate_age(birth_date_str, today=datetime(year=2024, month=3, day=1).date()):
+    """
+    Calculates age based on the birth date string and a reference date (default: 2024-03-01).
+    """
+    if birth_date_str:
+        birth_date = datetime.strptime(birth_date_str, "%d%m%Y").date()
+        return relativedelta(today, birth_date).years
+    return None
+
+
+def format_salary(salary):
+    """
+    Formats a salary value with commas and two decimal places.
+    """
+    return f"${float(salary.replace('$', '')):,.2f}"
+
+
+def categorize_salary(salary):
+    """
+    Categorizes salary into buckets based on ranges.
+    """
+    salary_value = float(salary.replace("$", ""))
+    if salary_value < 50000:
+        return "A"
+    elif salary_value < 100000:
+        return "B"
+    else:
+        return "C"
+
+
+def create_address_dict(row):
+    """
+    Extracts address information and creates a nested dictionary.
+    """
+    return {
+        "street": row["Address"],
+        "suburb": row["Suburb"],
+        "state": row["State"],
+        "postcode": row["Post"],
+    }
+
+
 def transform_data(data):
     """
     Transforms a list of dictionaries representing employee data.
 
-    This function adds the following key-value pairs to each dictionary:
-        - FullName: Combined first and last name (stripped)
-        - BirthDate: Formatted birthdate (if available)
-        - Age: Derived from birthdate and reference date
-        - Salary: Formatted salary with commas and two decimal places
-        - SalaryBucket: Categorized based on salary range
-        - address: Nested dictionary containing address components (street, suburb, state, postcode)
+    Calls the smaller helper functions for each transformation.
 
     Args:
         data (list): A list of dictionaries, where each dictionary represents an employee.
@@ -34,47 +87,13 @@ def transform_data(data):
     """
 
     transformed_data = []
-    today_datetime = datetime(year=2024, month=3, day=1)  # Reference date (hardcoded)
-    today = today_datetime.date()  # Extract the date part
-
     for row in data:
         new_row = {}
-
-        new_row["FullName"] = f"{row['FirstName'].strip()} {row['LastName'].strip()}"
-
-        # Handle nulls and convert BirthDate
-        birth_date = row.get("BirthDate")
-        if birth_date:
-            new_row["BirthDate"] = datetime.strptime(birth_date, "%d%m%Y").strftime("%d/%m/%Y")
-        else:
-            new_row["BirthDate"] = None
-
-        # Derive age
-        birth_date_str = row.get("BirthDate")
-        if birth_date_str:
-            birth_date = datetime.strptime(birth_date_str, "%d%m%Y").date()
-            age = relativedelta(today, birth_date).years
-            new_row["Age"] = age
-
-        # Format Salary and categorize
-        salary = float(row["Salary"].replace("$", ""))
-        new_row["Salary"] = f"${salary:,.2f}"
-        if salary < 50000:
-            new_row["SalaryBucket"] = "A"
-        elif salary < 100000:
-            new_row["SalaryBucket"] = "B"
-        else:
-            new_row["SalaryBucket"] = "C"
-
-        # Create and extract address information
-        address = Address(row["Address"], row["Suburb"], row["State"], row["Post"])
-        new_row["address"] = {
-            "street": address.street,
-            "suburb": address.suburb,
-            "state": address.state,
-            "postcode": address.postcode,
-        }
-
+        new_row["FullName"] = create_full_name(row)
+        new_row["BirthDate"] = format_birth_date(row.get("BirthDate"))
+        new_row["Age"] = calculate_age(row.get("BirthDate"))
+        new_row["Salary"] = format_salary(row["Salary"])
+        new_row["SalaryBucket"] = categorize_salary(row["Salary"])
+        new_row["address"] = create_address_dict(row)
         transformed_data.append(new_row)
-
     return transformed_data
