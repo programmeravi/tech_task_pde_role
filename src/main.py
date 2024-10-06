@@ -3,16 +3,47 @@ from transform_data import transform_data
 # from transform_data_v2 import transform_data
 from datetime import datetime
 # from dateutil.relativedelta import relativedelta
+import json 
 
-from transform_data import (
-    create_full_name,
-    format_birth_date
-)
-
-file_path = "data/member-data-smaller-sample.csv"
-# file_path = "data/member-data.csv"
+# # file_path = "data/member-data-smaller-sample.csv"
+file_path = "data/member-data.csv"
 data = read_data(file_path)
-# transformed_data = transform_data(data)
+transformed_data = transform_data(data)
+
+output_file = "transformed_json_data_full.json"
+
+with open(output_file, 'w') as f:
+    json.dump(transformed_data, f, indent=4)
+
+# bd = "13011996"
+# rs = datetime.strptime(bd, "%d%m%Y").strftime("%d/%m/%Y")
+# print(rs)
+
+
+# 3041976 - 30/04/1976
+# 7011984 - 07/01/1984
+# 13011996 - 13/01/1996
+# 3021981 - this comes up with 30/02/1981 - and this results ValueError: day is out of range for month
+    
+
+# def format_birth_date(birth_date_str):
+#     """
+#     Formats a birth date string (if available) to DD/MM/YYYY format.
+#     """
+#     # print(len(birth_date_str))
+#     if len(birth_date_str) <= 7:
+#         birth_date_str = "0" + birth_date_str
+#         return datetime.strptime(birth_date_str, "%d%m%Y").strftime("%d/%m/%Y")
+#     else:
+#         return datetime.strptime(birth_date_str, "%d%m%Y").strftime("%d/%m/%Y")
+
+
+# print(format_birth_date("3021981"))
+
+
+    # if birth_date_str:
+    #     return datetime.strptime(birth_date_str, "%d%m%Y").strftime("%d/%m/%Y")
+    # return None
 
 # for row in data:
 #     birth_date = row.get("BirthDate")
@@ -25,9 +56,9 @@ data = read_data(file_path)
 #     result = format_birth_date(birth_date)
 #     print(result)
 
-birth_date_str = "2061993"
-formatted_date = format_birth_date(birth_date_str)
-print(formatted_date)
+# birth_date_str = "2061993"
+# formatted_date = format_birth_date(birth_date_str)
+# print(formatted_date)
 
 # print(data)
 # print("---" * 40)

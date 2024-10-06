@@ -26,25 +26,42 @@ def format_birth_date(birth_date_str):
     """
     Formats a birth date string (if available) to DD/MM/YYYY format.
     """
-    if birth_date_str:
+    # handle nulls
+    if not birth_date_str:
+        return None
+
+    # print(len(birth_date_str))
+    if len(birth_date_str) <= 7:
+        birth_date_str = "0" + birth_date_str
         return datetime.strptime(birth_date_str, "%d%m%Y").strftime("%d/%m/%Y")
-    return None
+    else:
+        return datetime.strptime(birth_date_str, "%d%m%Y").strftime("%d/%m/%Y")
 
 
 def calculate_age(birth_date_str, today=datetime(year=2024, month=3, day=1).date()):
     """
     Calculates age based on the birth date string and a reference date (default: 2024-03-01).
     """
-    if birth_date_str:
+    # handle nulls
+    if not birth_date_str:
+        return None
+
+    if len(birth_date_str) <= 7:
+        birth_date_str = "0" + birth_date_str
         birth_date = datetime.strptime(birth_date_str, "%d%m%Y").date()
         return relativedelta(today, birth_date).years
-    return None
+    else:
+        birth_date = datetime.strptime(birth_date_str, "%d%m%Y").date()
+        return relativedelta(today, birth_date).years
 
 
 def format_salary(salary):
     """
     Formats a salary value with commas and two decimal places.
     """
+    if not salary:
+        return None
+    
     return f"${float(salary.replace('$', '')):,.2f}"
 
 
@@ -52,6 +69,8 @@ def categorize_salary(salary):
     """
     Categorizes salary into buckets based on ranges.
     """
+    if not salary:
+        return None
     salary_value = float(salary.replace("$", ""))
     if salary_value < 50000:
         return "A"
