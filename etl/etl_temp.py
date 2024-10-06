@@ -1,6 +1,6 @@
 import os
 # import pandas as pd
-from read_data import read_data  # Assuming read_data is defined in read_data.py
+from src.read_data import read_data
 
 # Get the current working directory
 current_dir = os.getcwd()
@@ -25,5 +25,6 @@ else:
     #     for col_name in column_names:
     #       value = row[col_name]
     #     #   print(col_name, value)
-    print(type(data))
-    print(data[0])
+    print(type(data)) # ist as expected
+    print(len(data)) # 500 rows of data - which is in csv
+    print(type(data[0])) # dict as expected
