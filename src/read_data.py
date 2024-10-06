@@ -26,6 +26,6 @@ def read_data(file_path):
     ]
 
     with open(file_path, 'r') as f:
-        reader = csv.DictReader(f, fieldnames=column_names)
+        reader = csv.DictReader(f, fieldnames=column_names, delimiter='|')
         data = [row for row in reader]
     return data
