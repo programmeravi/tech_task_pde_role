@@ -38,8 +38,23 @@ for row in data:
     new_row["Age"] = age
     
     # format salary
-    float_salary = float(row.get("Salary"))
-    new_row["Salary"] = f"${float_salary:,.2f}"
+    # float_salary = float(row.get("Salary"))
+    # new_row["Salary"] = f"${float_salary:,.2f}"
+    
+    # Format Salary and categorize
+    salary = float(row["Salary"].replace("$", ""))
+    new_row["Salary"] = f"${salary:,.2f}"
+    if salary < 50000:
+      new_row["SalaryBucket"] = "A"
+    elif salary < 100000:
+      new_row["SalaryBucket"] = "B"
+    else:
+      new_row["SalaryBucket"] = "C"
+
+    del new_row["FirstName"]
+    del new_row["LastName"]
+
+    # apped to a list
     td.append(new_row)
 
 print("--" * 50)
