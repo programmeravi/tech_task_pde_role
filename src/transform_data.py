@@ -1,62 +1,80 @@
+from read_data import read_data
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
+class Address:
+    """
+    Represents an address with street, suburb, state, and postcode.
+    """
+
+    def __init__(self, street, suburb, state, postcode):
+        self.street = street
+        self.suburb = suburb
+        self.state = state
+        self.postcode = postcode
+
 
 def transform_data(data):
-  """
-  Transforms a list of dictionaries representing employee data.
+    """
+    Transforms a list of dictionaries representing employee data.
 
-  Args:
-      data (list): A list of dictionaries, where each dictionary represents an employee.
+    This function adds the following key-value pairs to each dictionary:
+        - FullName: Combined first and last name (stripped)
+        - BirthDate: Formatted birthdate (if available)
+        - Age: Derived from birthdate and reference date
+        - Salary: Formatted salary with commas and two decimal places
+        - SalaryBucket: Categorized based on salary range
+        - address: Nested dictionary containing address components (street, suburb, state, postcode)
 
-  Returns:
-      list: A list of transformed dictionaries with additional information.
-  """
-  transformed_data = []
+    Args:
+        data (list): A list of dictionaries, where each dictionary represents an employee.
 
-  for row in data:
-    new_row = {}
+    Returns:
+        list: A list of transformed dictionaries with additional information.
+    """
 
-    # Convert the BirthDate from the format YYYY-MM-DD to DD/MM/YYYY
-    # new_row["BirthDate"] = datetime.strptime(row["BirthDate"], "%Y-%m-%d").strftime("%d/%m/%Y")
+    transformed_data = []
+    today_datetime = datetime(year=2024, month=3, day=1)  # Reference date (hardcoded)
+    today = today_datetime.date()  # Extract the date part
 
-    # Handle null BirthDate with conditional formatting
-    birth_date = row.get("BirthDate")  # Use get() to avoid KeyError
-    if birth_date:  # Check if birth_date is not None
-      new_row["BirthDate"] = datetime.strptime(birth_date, "%Y-%m-%d").strftime("%d/%m/%Y")
-    else:
-      new_row["BirthDate"] = None  # Assign None to BirthDate if it's null
+    for row in data:
+        new_row = {}
 
-    # new_row["FirstName"] = row["FirstName"].strip()
-    # new_row["LastName"] = row["LastName"].strip()
+        new_row["FullName"] = f"{row['FirstName'].strip()} {row['LastName'].strip()}"
 
-    # # Merge names and calculate age (assuming reference date is Mar 1, 2024)
-    # new_row["FullName"] = f"{new_row['FirstName']} {new_row['LastName']}"
-    # birth_date = datetime.strptime(row["BirthDate"], "%d/%m/%Y")
-    # reference_date = datetime(2024, 3, 1)
-    # age = reference_date.year - birth_date.year - ((reference_date.month, reference_date.day) < (birth_date.month, birth_date.day))
-    # new_row["Age"] = age
+        # Handle nulls and convert BirthDate
+        birth_date = row.get("BirthDate")
+        if birth_date:
+            new_row["BirthDate"] = datetime.strptime(birth_date, "%d%m%Y").strftime("%d/%m/%Y")
+        else:
+            new_row["BirthDate"] = None
 
-    # # Format Salary and categorize
-    # salary = float(row["Salary"].replace("$", ""))
-    # new_row["Salary"] = f"${salary:,.2f}"
-    # if salary < 50000:
-    #   new_row["SalaryBucket"] = "A"
-    # elif salary < 100000:
-    #   new_row["SalaryBucket"] = "B"
-    # else:
-    #   new_row["SalaryBucket"] = "C"
+        # Derive age
+        birth_date_str = row.get("BirthDate")
+        if birth_date_str:
+            birth_date = datetime.strptime(birth_date_str, "%d%m%Y").date()
+            age = relativedelta(today, birth_date).years
+            new_row["Age"] = age
 
-    # Exclude FirstName and LastName (if needed)
-    # del new_row["FirstName"]
-    # del new_row["LastName"]
+        # Format Salary and categorize
+        salary = float(row["Salary"].replace("$", ""))
+        new_row["Salary"] = f"${salary:,.2f}"
+        if salary < 50000:
+            new_row["SalaryBucket"] = "A"
+        elif salary < 100000:
+            new_row["SalaryBucket"] = "B"
+        else:
+            new_row["SalaryBucket"] = "C"
 
-    # Nested entity class for address (example, not implemented)
-    # new_row["Address"] = Address(street=row["Address"], suburb=row["Suburb"], ...)
+        # Create and extract address information
+        address = Address(row["Address"], row["Suburb"], row["State"], row["Post"])
+        new_row["address"] = {
+            "street": address.street,
+            "suburb": address.suburb,
+            "state": address.state,
+            "postcode": address.postcode,
+        }
 
-    transformed_data.append(new_row)
+        transformed_data.append(new_row)
 
-  return transformed_data
-
-# You can use this example to test the function:
-# data = [...]  # Your list of employee data
-# transformed_data = transform_data(data)
-# print(transformed_data)
+    return transformed_data

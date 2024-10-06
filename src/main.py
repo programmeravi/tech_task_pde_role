@@ -1,64 +1,72 @@
 from read_data import read_data
 from transform_data import transform_data
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
+# from datetime import datetime
+# from dateutil.relativedelta import relativedelta
 
 file_path = "data/member-data-smaller-sample.csv"
 data = read_data(file_path)
+transformed_data_sample = transform_data(data)
 
-print(type(data))
-# print(data)
+print(transformed_data_sample)
 
-today_datetime = datetime(year=2024, month=3, day=1)
-today = today_datetime.date()  # Extract the date part
 
-td = []
-for row in data:
-    print(row)
-    new_row = {}
+# class Address:
+#     """
+#     Represents an address with street, suburb, state, and postcode.
+#     """
 
-    # clean up names 
-    new_row["FirstName"] = row["FirstName"].strip()
-    new_row["LastName"] = row["LastName"].strip()
+#     def __init__(self, street, suburb, state, postcode):
+#         self.street = street
+#         self.suburb = suburb
+#         self.state = state
+#         self.postcode = postcode
 
-    # get full name
-    new_row["FullName"] = f"{new_row['FirstName']} {new_row['LastName']}"
+
+# today_datetime = datetime(year=2024, month=3, day=1) # hardcode date as its given part of assignment
+# today = today_datetime.date()  # Extract the date part to derive age
+
+# td = []
+# for row in data:
+#     new_row = {}
+#     new_row["FullName"] = f"{row['FirstName'].strip()} {row['LastName'].strip()}"
+
+#     # in case if we have to handle nulls - convert BirthDate
+#     birth_date = row.get("BirthDate")
+#     if birth_date:
+#         new_row["BirthDate"] = datetime.strptime(birth_date, "%d%m%Y").strftime("%d/%m/%Y")
+#     else:
+#         new_row["BirthDate"] = None
+
+#     # derive age
+#     birth_date_str = row["BirthDate"]
+#     birth_date = datetime.strptime(birth_date_str, "%d%m%Y").date()
+#     age = relativedelta(today, birth_date).years
+#     new_row["Age"] = age
     
-    # in case if we have to handle nulls - convert BirthDate
-    birth_date = row.get("BirthDate")
-    if birth_date:
-        new_row["BirthDate"] = datetime.strptime(birth_date, "%d%m%Y").strftime("%d/%m/%Y")
-    else:
-        new_row["BirthDate"] = None
+#     # Format Salary and categorize
+#     salary = float(row["Salary"].replace("$", ""))
+#     new_row["Salary"] = f"${salary:,.2f}"
+#     if salary < 50000:
+#       new_row["SalaryBucket"] = "A"
+#     elif salary < 100000:
+#       new_row["SalaryBucket"] = "B"
+#     else:
+#       new_row["SalaryBucket"] = "C"
 
-    # derive age
-    birth_date_str = row["BirthDate"]
-    birth_date = datetime.strptime(birth_date_str, "%d%m%Y").date()
-    age = relativedelta(today, birth_date).years
-    new_row["Age"] = age
-    
-    # format salary
-    # float_salary = float(row.get("Salary"))
-    # new_row["Salary"] = f"${float_salary:,.2f}"
-    
-    # Format Salary and categorize
-    salary = float(row["Salary"].replace("$", ""))
-    new_row["Salary"] = f"${salary:,.2f}"
-    if salary < 50000:
-      new_row["SalaryBucket"] = "A"
-    elif salary < 100000:
-      new_row["SalaryBucket"] = "B"
-    else:
-      new_row["SalaryBucket"] = "C"
+#     address = Address(row["Address"], row["Suburb"], row["State"], row["Post"])
 
-    del new_row["FirstName"]
-    del new_row["LastName"]
+#     # Extract address information and add to new_row
+#     new_row["address"] = {
+#         "street": address.street,
+#         "suburb": address.suburb,
+#         "state": address.state,
+#         "postcode": address.postcode,
+#     }
 
-    # apped to a list
-    td.append(new_row)
+#     td.append(new_row)
 
-print("--" * 50)
-print(td)
+# print("--" * 50)
+# print(td)
 
 # print(td)
 
