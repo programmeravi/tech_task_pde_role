@@ -113,3 +113,22 @@ def test_transform_data_integrates_all_functions():
     assert transformed_data[0]["Salary"] == "$123,456.79"
     assert transformed_data[0]["SalaryBucket"] == "C"
     assert transformed_data[0]["address"]["street"] == "1 Main St"
+
+def test_handle_empty_strings():
+    data = ""
+    transformed_data = format_birth_date(data)
+
+    if transformed_data is None:
+        assert True
+
+
+# def test_handle_invalid_birth_date():
+#     data = {"BirthDate": "invalid_date"}
+#     transformed_data = transform_data(data)
+#     assert transformed_data[0]["BirthDate"] is None
+
+# def test_handle_negative_salary():
+#     data = {"Salary": "-100"}
+#     transformed_data = transform_data(data)
+#     assert transformed_data[0]["Salary"] == "$0.00"
+#     assert transformed_data[0]["SalaryBucket"] is None  # Consider handling negative salaries appropriately

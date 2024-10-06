@@ -59,7 +59,7 @@ def format_salary(salary):
     """
     Formats a salary value with commas and two decimal places.
     """
-    if not salary:
+    if not salary or float(salary) < 0:
         return None
     
     return f"${float(salary.replace('$', '')):,.2f}"
