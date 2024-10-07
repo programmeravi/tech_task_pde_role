@@ -41,7 +41,8 @@ This project demonstrates an ETL (Extract, Transform, Load) pipeline with automa
    ```bash
    docker-compose up -d 
    ```
-   This will start the ETL process in detached mode. The `docker-compose.yml` file is configured to run the tests first using `run_tests.py` and then, if the tests pass, execute the `etl.py` script.
+   This will start the ETL process. 
+   The `docker-compose.yml` file is configured to run the tests first using `run_tests.py` and then execute the `etl.py` script.
 
 ### Testing
 
@@ -60,3 +61,6 @@ This project demonstrates an ETL (Extract, Transform, Load) pipeline with automa
 
 - The `docker-compose.yml` file defines the services for the ETL process, including:
     - Building the Docker image.
+
+## Output Screenshot in Docker
+![Alt text](/Users/ravi/Documents/revenue_nsw_data_engg_test/docker_outuput.jpg?raw=true "Docker Output")
