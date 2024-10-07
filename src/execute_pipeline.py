@@ -16,7 +16,9 @@ def main():
   """
   Executes the pipeline: tests first, then ETL.
   """
+  print("\n Running tests first")
   run_script("run_tests.py")
+  print("\n After test running etl which loads data into mongodb")
   run_script("etl.py")
 
 if __name__ == "__main__":
