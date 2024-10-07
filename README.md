@@ -62,6 +62,9 @@ This project demonstrates an ETL (Extract, Transform, Load) pipeline with automa
 - The `docker-compose.yml` file defines the services for the ETL process, including:
     - Building the Docker image.
 
+## Data Sample after Transformation
+![Alt text](data_output_sample.jpg?raw=true "Sample Data")
+
 ## Output Screenshot in Docker
 ![Alt text](docker_outuput.jpg?raw=true "Docker Output")
 
