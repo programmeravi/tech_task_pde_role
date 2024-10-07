@@ -1,10 +1,15 @@
+# Use the official Python 3.9 image as the base
 FROM python:3.9-slim-buster
 
-WORKDIR /app
+RUN mkdir -p src
 
-COPY requirements.txt .
+WORKDIR /src
+
+COPY requirements.txt ./
+
 RUN pip install -r requirements.txt
 
-COPY etl_script.py .
+COPY src/ . 
 
-CMD ["python", "etl_script.py"]
+# Set the default command to be executed when the container starts
+CMD [ "python", "main.py" ]

@@ -12,3 +12,5 @@ output_file = "transformed_json_data_full.json"
 
 with open(output_file, 'w') as f:
     json.dump(transformed_data, f, indent=4)
+
+print("successfully processed data and dumped into json !! ")
