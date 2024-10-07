@@ -63,4 +63,5 @@ This project demonstrates an ETL (Extract, Transform, Load) pipeline with automa
     - Building the Docker image.
 
 ## Output Screenshot in Docker
-![Alt text](/Users/ravi/Documents/revenue_nsw_data_engg_test/docker_outuput.jpg?raw=true "Docker Output")
+![Alt text](docker_outuput.jpg?raw=true "Docker Output")
+
