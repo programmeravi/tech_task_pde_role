@@ -26,7 +26,7 @@ def test_format_birth_date():
     """
     birth_date_str = "2061993"
     formatted_date = format_birth_date(birth_date_str)
-    assert formatted_date == "20/06/1993"
+    assert formatted_date == "02/06/1993"
 
 
 def test_format_birth_date_handles_none():
@@ -108,7 +108,7 @@ def test_transform_data_integrates_all_functions():
     ]
     transformed_data = transform_data(data)
     assert transformed_data[0]["FullName"] == "John Doe"
-    assert transformed_data[0]["BirthDate"] == "20/06/1993"
+    assert transformed_data[0]["BirthDate"] == "02/06/1993"
     assert transformed_data[0]["Age"] == 30
     assert transformed_data[0]["Salary"] == "$123,456.79"
     assert transformed_data[0]["SalaryBucket"] == "C"

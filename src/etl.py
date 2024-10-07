@@ -26,7 +26,7 @@ MONGO_PORT = 27017
 
 print("Uploading data to Mongo DB !!")
 
-num_inserted = load_data_to_mongo(transformed_data, MONGO_HOST, MONGO_PORT, "rnsw", "members")
+num_inserted = load_data_to_mongo(transformed_data, MONGO_HOST, MONGO_PORT, "rnsw", "member")
 print(f"Successfully inserted {num_inserted} documents into MongoDB!")
 
 if data_count == transformed_count and transformed_count == num_inserted:
