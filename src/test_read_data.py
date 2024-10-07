@@ -16,7 +16,7 @@ def test_valid_file_returns_list_of_dicts():
     Test that the read_data function returns a list of dictionaries 
     when provided with a valid CSV file.
     """
-    file_path = "src/data/member-data.csv"
+    file_path = "data/member-data.csv"
     data = read_data(file_path)
 
     # Assert that the data is a list
