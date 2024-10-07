@@ -12,4 +12,4 @@ RUN pip install -r requirements.txt
 COPY src/ . 
 
 # Set the default command to be executed when the container starts
-CMD [ "python", "etl.py" ]
+CMD ["python", "execute_pipeline.py"]
