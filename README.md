@@ -4,7 +4,6 @@
 This project demonstrates an ETL (Extract, Transform, Load) pipeline with automated testing using pytest and Docker implementation.
 
 ## Project Structure
-
 ```
 ├── Dockerfile
 ├── README.md
@@ -23,7 +22,6 @@ This project demonstrates an ETL (Extract, Transform, Load) pipeline with automa
     ├── test_read_data.py
     ├── test_transform_data.py
     └── transform_data.py
-```
 
 ## Getting Started
 
